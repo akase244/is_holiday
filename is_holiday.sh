@@ -40,8 +40,8 @@ function is_holiday() {
        local FORMATTED_HOLIDAY_DATE=`date '+%Y%m%d' -d $HOLIDAY_DATE 2>/dev/null`
        # 祝日が不正な日付（例: 2021/6/31）の場合
        if [ "$FORMATTED_HOLIDAY_DATE" = "" ] ; then
-          echo 'FALSE'
-          exit 1
+          # 処理を止めずに繰り返す
+          continue
        fi
        # 引数が祝日に該当した場合
        if [ $FORMATTED_HOLIDAY_DATE = $TARGET_DATE ] ; then
