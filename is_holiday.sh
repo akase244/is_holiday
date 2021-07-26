@@ -6,19 +6,19 @@ function is_holiday() {
     # 引数なしの場合
     if [ $# -eq 0 ] ; then
        echo 'FALSE'
-       exit 1
+       return 1
     fi
 
     # 引数が空の場合
     if [ "$1" = "" ] ; then
        echo 'FALSE'
-       exit 1
+       return 1
     fi
 
     # 引数が日付の形式ではない場合
     if [[ ! "$1" =~ ^(19[0-9]{2}|20[0-9]{2})(/|-)(0?[1-9]|1[0-2])(/|-)(0?[1-9]|[12][0-9]|3[01])$ ]] ; then
        echo 'FALSE'
-       exit 1
+       return 1
     fi
 
     # 引数を元にYYYYMMDD形式にフォーマット
@@ -26,7 +26,7 @@ function is_holiday() {
     # 引数が不正な日付（例: 2021/6/31）の場合
     if [ "$TARGET_DATE" = "" ] ; then
        echo 'FALSE'
-       exit 1
+       return 1
     fi
 
     # 内閣府から祝日のCSVを取得（1行目はヘッダー行のためスキップ）
@@ -46,10 +46,10 @@ function is_holiday() {
        # 引数が祝日に該当した場合
        if [ $FORMATTED_HOLIDAY_DATE = $TARGET_DATE ] ; then
            echo 'TRUE'
-           exit 0
+           return 0
        fi
     done
     # 引数が祝日に該当しなかった場合
     echo 'FALSE'
-    exit 0
+    return 0
 }
